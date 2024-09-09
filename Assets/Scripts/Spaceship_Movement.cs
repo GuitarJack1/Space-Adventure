@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Spaceship_Movement : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Spaceship_Movement : MonoBehaviour
     //Serialize Fields, needs input on unity screen
     [SerializeField]
     private Transform spaceshipTransform;
+    [SerializeField]
+    private float boostStrength;
     [SerializeField]
     private float rollSpeed;
     [SerializeField]
@@ -25,9 +28,16 @@ public class Spaceship_Movement : MonoBehaviour
 
         //Setup input system
         controls = new PlayerControls();
-        controls.SpaceShip.Enable();
+        if (SceneManager.GetActiveScene ().name == "Space Scene"){
+            controls.SpaceShip.Enable();
+        }else{
+            controls.SpaceShip.Disable();
+        }
 
         boosting = false;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -43,8 +53,7 @@ public class Spaceship_Movement : MonoBehaviour
     void FixedUpdate(){
         //Boost forward
         if (boosting){
-            Debug.Log("Boosting");
-            rb.AddForce(spaceshipTransform.forward * 2, ForceMode.Acceleration);
+            rb.AddForce(spaceshipTransform.forward * boostStrength, ForceMode.Acceleration);
         }
     }
 }

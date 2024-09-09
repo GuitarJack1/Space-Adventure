@@ -114,6 +114,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Planet_Creation"",
+            ""id"": ""0f5a4f6f-dc79-4d25-ac13-e6bc2968072b"",
+            ""actions"": [
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""8790723c-6c69-467d-84d9-af7b5d2bd693"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e153fb93-b239-4aed-b17a-3cb0f5c7bdfa"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -128,6 +156,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_SpaceShip = asset.FindActionMap("SpaceShip", throwIfNotFound: true);
         m_SpaceShip_RotationPitchRoll = m_SpaceShip.FindAction("Rotation (Pitch/Roll)", throwIfNotFound: true);
         m_SpaceShip_Boost = m_SpaceShip.FindAction("Boost", throwIfNotFound: true);
+        // Planet_Creation
+        m_Planet_Creation = asset.FindActionMap("Planet_Creation", throwIfNotFound: true);
+        m_Planet_Creation_Select = m_Planet_Creation.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -239,6 +270,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public SpaceShipActions @SpaceShip => new SpaceShipActions(this);
+
+    // Planet_Creation
+    private readonly InputActionMap m_Planet_Creation;
+    private List<IPlanet_CreationActions> m_Planet_CreationActionsCallbackInterfaces = new List<IPlanet_CreationActions>();
+    private readonly InputAction m_Planet_Creation_Select;
+    public struct Planet_CreationActions
+    {
+        private @PlayerControls m_Wrapper;
+        public Planet_CreationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Select => m_Wrapper.m_Planet_Creation_Select;
+        public InputActionMap Get() { return m_Wrapper.m_Planet_Creation; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Planet_CreationActions set) { return set.Get(); }
+        public void AddCallbacks(IPlanet_CreationActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Planet_CreationActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Planet_CreationActionsCallbackInterfaces.Add(instance);
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+        }
+
+        private void UnregisterCallbacks(IPlanet_CreationActions instance)
+        {
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+        }
+
+        public void RemoveCallbacks(IPlanet_CreationActions instance)
+        {
+            if (m_Wrapper.m_Planet_CreationActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlanet_CreationActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Planet_CreationActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Planet_CreationActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Planet_CreationActions @Planet_Creation => new Planet_CreationActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -252,5 +329,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnRotationPitchRoll(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+    }
+    public interface IPlanet_CreationActions
+    {
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

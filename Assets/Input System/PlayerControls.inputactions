@@ -92,6 +92,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Planet_Creation",
+            "id": "0f5a4f6f-dc79-4d25-ac13-e6bc2968072b",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "8790723c-6c69-467d-84d9-af7b5d2bd693",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e153fb93-b239-4aed-b17a-3cb0f5c7bdfa",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
