@@ -11,14 +11,14 @@ public class ClickablePlanet : MonoBehaviour
     public string planetName = "";
     public float mass = 0;
     public float size = 0;
+
     public Color color = Color.green;
+    public float emissionIntensity; 
 
     public float startXPos = 0;
-    public float startYPos = 0;
     public float startZPos = 0;
 
     public float startXVel = 0;
-    public float startYVel = 0;
     public float startZVel = 0;
 
 
@@ -33,6 +33,9 @@ public class ClickablePlanet : MonoBehaviour
     private Rigidbody rb;
     private Renderer rend;
     private Transform trans;
+
+    [SerializeField]
+    private PlanetUIManager planetUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -52,22 +55,30 @@ public class ClickablePlanet : MonoBehaviour
             controls.Planet_Creation.Enable();
             controls.Planet_Creation.Select.performed += CheckIfSelected;
         }
+
+        rb.constraints = RigidbodyConstraints.FreezePosition;
+        SetActualAttributes();
     }
 
     // Update is called once per frame
     void Update()
     {
-        SetPlanetAttributes();
+
     }
 
-    void SetPlanetAttributes(){
-        transform.position = new Vector3(startXPos, startYPos, startZPos);
+    public void SetActualAttributes(){
+        transform.position = new Vector3(startXPos, 0, startZPos);
 
-        rb.velocity = new Vector3(startXVel, startYVel, startZVel);
+        rb.velocity = new Vector3(startXVel, 0, startZVel);
+
+        rb.mass = mass;
 
         transform.localScale = new Vector3(size, size, size);
 
         rend.material.color = color;
+        rend.material.SetColor("_EmissionColor", color * emissionIntensity);
+        rend.material.EnableKeyword("_EMISSION");
+        
     }
     void CheckIfSelected(InputAction.CallbackContext context){
         ray = cam.ScreenPointToRay(new Vector2(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue()));
@@ -80,6 +91,6 @@ public class ClickablePlanet : MonoBehaviour
     }
 
     void PlanetClicked(){
-        Debug.Log("Planet Clicked");
+        planetUIManager.SetCurrentPlanet(gameObject);
     }
 }
