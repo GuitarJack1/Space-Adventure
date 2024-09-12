@@ -30,25 +30,37 @@ public class PlanetUIManager : MonoBehaviour
     [SerializeField]
     private GameObject planetInfoUI;
 
+    public bool simRunning;
+
     // Start is called before the first frame update
     void Start()
     {
         planet = null;
         planetScript = null;
+
+        simRunning = false;
     }
 
-    void Update(){
-        planetInfoUI.SetActive(planet == null ? false : true);
+    void Update()
+    {
+        planetInfoUI.SetActive(planet != null && !simRunning);
+
+        if (!simRunning && planetScript != null)
+        {
+            planetScript.SetStartAttributes();
+        }
     }
 
-    public void SetCurrentPlanet(GameObject newPlanet){
+    public void SetCurrentPlanet(GameObject newPlanet)
+    {
         planet = newPlanet;
         planetScript = planet.GetComponent<ClickablePlanet>();
 
         UpdateUI();
     }
 
-    public void UpdateUI(){
+    public void UpdateUI()
+    {
         nameInput.text = planetScript.planetName;
         sizeInput.text = "" + planetScript.size;
         massInput.text = "" + planetScript.mass;
@@ -59,7 +71,8 @@ public class PlanetUIManager : MonoBehaviour
         xVelInput.text = "" + planetScript.startXVel;
         zVelInput.text = "" + planetScript.startZVel;
     }
-    public void UpdatePlanet(){
+    public void UpdatePlanet()
+    {
         planetScript.planetName = nameInput.text;
         planetScript.size = float.Parse(sizeInput.text);
         planetScript.mass = float.Parse(massInput.text);
@@ -69,11 +82,10 @@ public class PlanetUIManager : MonoBehaviour
 
         planetScript.startXVel = float.Parse(xVelInput.text);
         planetScript.startZVel = float.Parse(zVelInput.text);
-
-        planetScript.SetActualAttributes();
     }
 
-    public void GoExplore(){
+    public void GoExplore()
+    {
         SceneManager.LoadScene("Space Scene");
     }
 }

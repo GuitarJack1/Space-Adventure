@@ -13,7 +13,7 @@ public class ClickablePlanet : MonoBehaviour
     public float size = 0;
 
     public Color color = Color.green;
-    public float emissionIntensity; 
+    public float emissionIntensity;
 
     public float startXPos = 0;
     public float startZPos = 0;
@@ -29,13 +29,14 @@ public class ClickablePlanet : MonoBehaviour
 
     private Ray ray;
     private RaycastHit rayHit;
-
-    private Rigidbody rb;
     private Renderer rend;
-    private Transform trans;
 
     [SerializeField]
     private PlanetUIManager planetUIManager;
+
+    private Vector3 currVel;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,52 +46,69 @@ public class ClickablePlanet : MonoBehaviour
 
         cam = Camera.main;
 
-        rb = GetComponent<Rigidbody>();
         rend = GetComponent<Renderer>();
-        trans = GetComponent<Transform>();
 
-        if (SceneManager.GetActiveScene ().name == "Space Scene"){
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
             controls.Planet_Creation.Disable();
-        }else{
+        }
+        else
+        {
             controls.Planet_Creation.Enable();
             controls.Planet_Creation.Select.performed += CheckIfSelected;
         }
 
-        rb.constraints = RigidbodyConstraints.FreezePosition;
-        SetActualAttributes();
+        SetStartAttributes();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetStartAttributes()
     {
-
-    }
-
-    public void SetActualAttributes(){
         transform.position = new Vector3(startXPos, 0, startZPos);
 
-        rb.velocity = new Vector3(startXVel, 0, startZVel);
-
-        rb.mass = mass;
+        currVel.x = startXVel;
+        currVel.z = startZVel;
 
         transform.localScale = new Vector3(size, size, size);
 
         rend.material.color = color;
         rend.material.SetColor("_EmissionColor", color * emissionIntensity);
         rend.material.EnableKeyword("_EMISSION");
-        
     }
-    void CheckIfSelected(InputAction.CallbackContext context){
+    void CheckIfSelected(InputAction.CallbackContext context)
+    {
         ray = cam.ScreenPointToRay(new Vector2(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue()));
 
-        if (Physics.Raycast(ray, out rayHit, 1000f)){
-            if (rayHit.transform == transform){
+        if (Physics.Raycast(ray, out rayHit, 100000f))
+        {
+            if (rayHit.transform == transform)
+            {
                 PlanetClicked();
             }
         }
     }
 
-    void PlanetClicked(){
+    public void UpdateVelocity(ClickablePlanet[] planets, float timeStep, float gravitationalConstant)
+    {
+        foreach (ClickablePlanet planet in planets)
+        {
+            if (planet != this)
+            {
+                float distanceSqrd = (planet.transform.position - transform.position).sqrMagnitude;
+                Vector3 forceDir = (planet.transform.position - transform.position).normalized;
+                Vector3 acceleration = (forceDir * planet.mass * gravitationalConstant) / distanceSqrd;
+
+                currVel += acceleration * timeStep;
+            }
+        }
+    }
+
+    public void UpdatePos(float timeStep)
+    {
+        transform.position += currVel * timeStep;
+    }
+
+    void PlanetClicked()
+    {
         planetUIManager.SetCurrentPlanet(gameObject);
     }
 }
