@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlanetUIManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlanetUIManager : MonoBehaviour
 
     //[SerializeField]
     //private GameObject planetPrefab;
+
+    //Input text
     [SerializeField]
     private TMP_InputField nameInput;
     [SerializeField]
@@ -26,6 +29,12 @@ public class PlanetUIManager : MonoBehaviour
     private TMP_InputField xVelInput;
     [SerializeField]
     private TMP_InputField zVelInput;
+    [SerializeField]
+    private TMP_Dropdown centerPlanetDropdown;
+
+    //Other needed objects
+    [SerializeField]
+    private TMP_Text simRunningText;
 
     [SerializeField]
     private GameObject planetInfoUI;
@@ -44,11 +53,6 @@ public class PlanetUIManager : MonoBehaviour
     void Update()
     {
         planetInfoUI.SetActive(planet != null && !simRunning);
-
-        if (!simRunning && planetScript != null)
-        {
-            planetScript.SetStartAttributes();
-        }
     }
 
     public void SetCurrentPlanet(GameObject newPlanet)
@@ -87,5 +91,27 @@ public class PlanetUIManager : MonoBehaviour
     public void GoExplore()
     {
         SceneManager.LoadScene("Space Scene");
+    }
+
+    public void ToggleSim()
+    {
+        simRunning = !simRunning;
+
+        simRunningText.text = simRunning ? "Stop Sim" : "Start Sim";
+    }
+
+    public void UpdateCenterPlanetDropdown(ClickablePlanet[] planets)
+    {
+        List<TMP_Dropdown.OptionData> newOptionData = new()
+        {
+            new TMP_Dropdown.OptionData("None")
+        };
+
+        for (int i = 0; i < planets.Length; i++)
+        {
+            newOptionData.Add(new TMP_Dropdown.OptionData(planets[i].GetComponent<ClickablePlanet>().planetName));
+        }
+
+        centerPlanetDropdown.options = newOptionData;
     }
 }

@@ -127,6 +127,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sim_Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""17d369b4-1b78-43d7-8b2e-6820ac23660f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -140,6 +149,61 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""8bdd5d52-729a-43f0-a06b-b99ffc55bdd0"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sim_Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""12564c86-ce3b-47c3-8c2e-1eab8557ff77"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Sim_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c15e7dc4-2759-4f7e-a07e-23c19c783d9a"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Sim_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5faaba4f-d187-4828-a08f-f1c70cb1054f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Sim_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ab61bb15-6810-4e6e-8508-8422d7539e36"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Sim_Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -159,6 +223,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Planet_Creation
         m_Planet_Creation = asset.FindActionMap("Planet_Creation", throwIfNotFound: true);
         m_Planet_Creation_Select = m_Planet_Creation.FindAction("Select", throwIfNotFound: true);
+        m_Planet_Creation_Sim_Movement = m_Planet_Creation.FindAction("Sim_Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -275,11 +340,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Planet_Creation;
     private List<IPlanet_CreationActions> m_Planet_CreationActionsCallbackInterfaces = new List<IPlanet_CreationActions>();
     private readonly InputAction m_Planet_Creation_Select;
+    private readonly InputAction m_Planet_Creation_Sim_Movement;
     public struct Planet_CreationActions
     {
         private @PlayerControls m_Wrapper;
         public Planet_CreationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Select => m_Wrapper.m_Planet_Creation_Select;
+        public InputAction @Sim_Movement => m_Wrapper.m_Planet_Creation_Sim_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Planet_Creation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -292,6 +359,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @Sim_Movement.started += instance.OnSim_Movement;
+            @Sim_Movement.performed += instance.OnSim_Movement;
+            @Sim_Movement.canceled += instance.OnSim_Movement;
         }
 
         private void UnregisterCallbacks(IPlanet_CreationActions instance)
@@ -299,6 +369,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @Sim_Movement.started -= instance.OnSim_Movement;
+            @Sim_Movement.performed -= instance.OnSim_Movement;
+            @Sim_Movement.canceled -= instance.OnSim_Movement;
         }
 
         public void RemoveCallbacks(IPlanet_CreationActions instance)
@@ -333,5 +406,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlanet_CreationActions
     {
         void OnSelect(InputAction.CallbackContext context);
+        void OnSim_Movement(InputAction.CallbackContext context);
     }
 }

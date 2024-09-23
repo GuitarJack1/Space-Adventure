@@ -31,8 +31,7 @@ public class ClickablePlanet : MonoBehaviour
     private RaycastHit rayHit;
     private Renderer rend;
 
-    [SerializeField]
-    private PlanetUIManager planetUIManager;
+    public PlanetUIManager planetUIManager;
 
     private Vector3 currVel;
 
