@@ -114,6 +114,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Mouse_Position",
+                    "type": "Value",
+                    "id": "28d7c480-286d-415f-b409-b688edfd84c8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Mouse_Down",
+                    "type": "Button",
+                    "id": "5313ccfe-09c6-4858-a7e8-4c822bb39549",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -182,6 +200,28 @@
                     "action": "Sim_Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "568e7dfe-1b2a-4fd6-9c42-aaa18911afd0",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Mouse_Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1103c8db-2d75-4e88-929e-63fc1ac25c27",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Mouse_Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

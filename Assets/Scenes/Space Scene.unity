@@ -585,11 +585,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e322ac151179d549a39067ad436ebfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 100
   spaceshipTransform: {fileID: 584201906}
   boostStrength: 10
-  rollSpeed: 0.45
-  pitchSpeed: 0.3
+  rollSpeed: 0.2
+  pitchSpeed: 0.1
 --- !u!1 &588558704
 GameObject:
   m_ObjectHideFlags: 0

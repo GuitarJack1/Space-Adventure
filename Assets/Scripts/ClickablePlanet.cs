@@ -12,7 +12,7 @@ public class ClickablePlanet : MonoBehaviour
     public float mass = 0;
     public float size = 0;
 
-    public Color color = Color.green;
+    public Color color;
     public float emissionIntensity;
 
     public float startXPos = 0;

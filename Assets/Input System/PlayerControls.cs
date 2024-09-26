@@ -136,6 +136,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Mouse_Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""28d7c480-286d-415f-b409-b688edfd84c8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Mouse_Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""5313ccfe-09c6-4858-a7e8-4c822bb39549"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -204,6 +222,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Sim_Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""568e7dfe-1b2a-4fd6-9c42-aaa18911afd0"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Mouse_Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1103c8db-2d75-4e88-929e-63fc1ac25c27"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Mouse_Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -224,6 +264,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Planet_Creation = asset.FindActionMap("Planet_Creation", throwIfNotFound: true);
         m_Planet_Creation_Select = m_Planet_Creation.FindAction("Select", throwIfNotFound: true);
         m_Planet_Creation_Sim_Movement = m_Planet_Creation.FindAction("Sim_Movement", throwIfNotFound: true);
+        m_Planet_Creation_Mouse_Position = m_Planet_Creation.FindAction("Mouse_Position", throwIfNotFound: true);
+        m_Planet_Creation_Mouse_Down = m_Planet_Creation.FindAction("Mouse_Down", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -341,12 +383,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlanet_CreationActions> m_Planet_CreationActionsCallbackInterfaces = new List<IPlanet_CreationActions>();
     private readonly InputAction m_Planet_Creation_Select;
     private readonly InputAction m_Planet_Creation_Sim_Movement;
+    private readonly InputAction m_Planet_Creation_Mouse_Position;
+    private readonly InputAction m_Planet_Creation_Mouse_Down;
     public struct Planet_CreationActions
     {
         private @PlayerControls m_Wrapper;
         public Planet_CreationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Select => m_Wrapper.m_Planet_Creation_Select;
         public InputAction @Sim_Movement => m_Wrapper.m_Planet_Creation_Sim_Movement;
+        public InputAction @Mouse_Position => m_Wrapper.m_Planet_Creation_Mouse_Position;
+        public InputAction @Mouse_Down => m_Wrapper.m_Planet_Creation_Mouse_Down;
         public InputActionMap Get() { return m_Wrapper.m_Planet_Creation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +408,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sim_Movement.started += instance.OnSim_Movement;
             @Sim_Movement.performed += instance.OnSim_Movement;
             @Sim_Movement.canceled += instance.OnSim_Movement;
+            @Mouse_Position.started += instance.OnMouse_Position;
+            @Mouse_Position.performed += instance.OnMouse_Position;
+            @Mouse_Position.canceled += instance.OnMouse_Position;
+            @Mouse_Down.started += instance.OnMouse_Down;
+            @Mouse_Down.performed += instance.OnMouse_Down;
+            @Mouse_Down.canceled += instance.OnMouse_Down;
         }
 
         private void UnregisterCallbacks(IPlanet_CreationActions instance)
@@ -372,6 +424,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sim_Movement.started -= instance.OnSim_Movement;
             @Sim_Movement.performed -= instance.OnSim_Movement;
             @Sim_Movement.canceled -= instance.OnSim_Movement;
+            @Mouse_Position.started -= instance.OnMouse_Position;
+            @Mouse_Position.performed -= instance.OnMouse_Position;
+            @Mouse_Position.canceled -= instance.OnMouse_Position;
+            @Mouse_Down.started -= instance.OnMouse_Down;
+            @Mouse_Down.performed -= instance.OnMouse_Down;
+            @Mouse_Down.canceled -= instance.OnMouse_Down;
         }
 
         public void RemoveCallbacks(IPlanet_CreationActions instance)
@@ -407,5 +465,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnSelect(InputAction.CallbackContext context);
         void OnSim_Movement(InputAction.CallbackContext context);
+        void OnMouse_Position(InputAction.CallbackContext context);
+        void OnMouse_Down(InputAction.CallbackContext context);
     }
 }

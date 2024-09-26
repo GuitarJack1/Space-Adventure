@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,8 @@ public class UniverseManager : MonoBehaviour
 
     [SerializeField]
     private OrbitDebugDisplay orbitDebugDisplay;
+    [SerializeField]
+    PassingPlanetData planetDataToPass;
 
     private PlayerControls controls;
     //[SerializeField]
@@ -106,6 +109,13 @@ public class UniverseManager : MonoBehaviour
 
     public void AddPlanet()
     {
+        foreach (ClickablePlanet planet in planets)
+        {
+            if (planet.startXPos == 0 && planet.startZPos == 0)
+            {
+                return;
+            }
+        }
         GameObject newPlanet = Instantiate(planetPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         ClickablePlanet[] newArray = new ClickablePlanet[planets.Length + 1];
 
@@ -134,5 +144,13 @@ public class UniverseManager : MonoBehaviour
                 orbitDebugDisplay.relativeToBody = true;
             }
         }
+    }
+
+    public void GoExplore()
+    {
+        planetDataToPass.AddClickablePlanets(planets);
+        planetDataToPass.gravitationalConstant = gravitationalConstant;
+
+        SceneManager.LoadScene("Space Scene");
     }
 }

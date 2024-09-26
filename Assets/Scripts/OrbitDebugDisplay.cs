@@ -106,6 +106,9 @@ public class OrbitDebugDisplay : MonoBehaviour
                 lineRenderer.startColor = pathColour;
                 lineRenderer.endColor = pathColour;
                 lineRenderer.widthMultiplier = width;
+                lineRenderer.material.color = pathColour;
+                lineRenderer.material.SetColor("_EmissionColor", pathColour * 0.3f);
+                lineRenderer.material.EnableKeyword("_EMISSION");
             }
             else
             {

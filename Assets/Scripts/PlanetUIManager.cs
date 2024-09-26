@@ -31,6 +31,8 @@ public class PlanetUIManager : MonoBehaviour
     private TMP_InputField zVelInput;
     [SerializeField]
     private TMP_Dropdown centerPlanetDropdown;
+    [SerializeField]
+    FlexibleColorPicker flexibleColorPicker;
 
     //Other needed objects
     [SerializeField]
@@ -53,6 +55,8 @@ public class PlanetUIManager : MonoBehaviour
     void Update()
     {
         planetInfoUI.SetActive(planet != null && !simRunning);
+
+        UpdatePlanetColor(flexibleColorPicker.color);
     }
 
     public void SetCurrentPlanet(GameObject newPlanet)
@@ -63,8 +67,17 @@ public class PlanetUIManager : MonoBehaviour
         UpdateUI();
     }
 
+    public void UpdatePlanetColor(Color color)
+    {
+        if (planetScript)
+        {
+            planetScript.color = color;
+        }
+    }
+
     public void UpdateUI()
     {
+        flexibleColorPicker.color = planetScript.color;
         nameInput.text = planetScript.planetName;
         sizeInput.text = "" + planetScript.size;
         massInput.text = "" + planetScript.mass;
@@ -86,11 +99,6 @@ public class PlanetUIManager : MonoBehaviour
 
         planetScript.startXVel = float.Parse(xVelInput.text);
         planetScript.startZVel = float.Parse(zVelInput.text);
-    }
-
-    public void GoExplore()
-    {
-        SceneManager.LoadScene("Space Scene");
     }
 
     public void ToggleSim()
