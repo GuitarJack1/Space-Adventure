@@ -269,7 +269,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 10000
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -294,7 +294,7 @@ Transform:
   m_GameObject: {fileID: 227003041}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 201.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceshipT: {fileID: 584201906}
-  hoverHeight: 44.71
+  hoverHeight: 201.4
   rotateWithPlayer: 1
 --- !u!1 &550489036
 GameObject:
@@ -586,9 +586,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceshipTransform: {fileID: 584201906}
-  boostStrength: 10
-  rollSpeed: 0.2
-  pitchSpeed: 0.1
+  boostStrength: 100
+  rollSpeed: 0.3
+  pitchSpeed: 0.15
 --- !u!1 &588558704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,13 +1124,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 3.28, z: -10}
-  m_XDamping: 1.5
-  m_YDamping: 1.5
-  m_ZDamping: 1.5
+  m_XDamping: 0.5
+  m_YDamping: 0.5
+  m_ZDamping: 0.5
   m_AngularDampingMode: 0
-  m_PitchDamping: 3
-  m_YawDamping: 3
-  m_RollDamping: 3
+  m_PitchDamping: 2
+  m_YawDamping: 2
+  m_RollDamping: 2
   m_AngularDamping: 0
 --- !u!114 &1109820019
 MonoBehaviour:
@@ -1595,7 +1595,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -1.2}
-  m_SizeDelta: {x: 12, y: 6}
+  m_SizeDelta: {x: 600, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1674392509
 MonoBehaviour:
