@@ -19,8 +19,8 @@ public class Spaceship_Movement : MonoBehaviour
 
     //File variables for storing info
     private bool boosting;
-    
-    
+
+
     void Awake()
     {
         //Get spaceship rigidbody
@@ -28,9 +28,12 @@ public class Spaceship_Movement : MonoBehaviour
 
         //Setup input system
         controls = new PlayerControls();
-        if (SceneManager.GetActiveScene ().name == "Space Scene"){
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
             controls.SpaceShip.Enable();
-        }else{
+        }
+        else
+        {
             controls.SpaceShip.Disable();
         }
 
@@ -43,16 +46,18 @@ public class Spaceship_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        boosting = controls.SpaceShip.Boost.IsPressed();
-
-        Vector2 rotationInput = controls.SpaceShip.RotationPitchRoll.ReadValue<Vector2>();
-        spaceshipTransform.Rotate(rotationInput.y == 0 ? 0 : (rotationInput.y > 0 ? pitchSpeed : -pitchSpeed), 0.0f, rotationInput.x == 0 ? 0 : (rotationInput.x > 0 ? -rollSpeed : rollSpeed), Space.Self);
     }
 
     //Updates on a fixed interval, better for physics
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
+        Vector2 rotationInput = controls.SpaceShip.RotationPitchRoll.ReadValue<Vector2>();
+        spaceshipTransform.Rotate(rotationInput.y == 0 ? 0 : (rotationInput.y > 0 ? pitchSpeed : -pitchSpeed), 0.0f, rotationInput.x == 0 ? 0 : (rotationInput.x > 0 ? -rollSpeed : rollSpeed), Space.Self);
+        Physics.SyncTransforms();
+
         //Boost forward
-        if (boosting){
+        if (controls.SpaceShip.Boost.IsPressed())
+        {
             rb.AddForce(spaceshipTransform.forward * boostStrength, ForceMode.Acceleration);
         }
     }

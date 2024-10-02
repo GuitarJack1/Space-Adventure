@@ -19,7 +19,7 @@ public class UpdateSpaceshipUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class UpdateSpaceshipUI : MonoBehaviour
     {
         float speed = spaceshipRB.velocity.magnitude;
         float needleAngle = 90 - ((speed / maxSpeed) * 180);
-        
+
         needleAngle += UnityEngine.Random.Range(-((speed / maxSpeed) * maxShake), ((speed / maxSpeed) * maxShake));
 
         needleRotationPoint.eulerAngles = new Vector3(0, 0, needleAngle);

@@ -29,4 +29,20 @@ public class ExplorationPlanet : MonoBehaviour
         this.startXVel = startXVel;
         this.startZVel = startZVel;
     }
+
+    private MeshRenderer rend;
+
+    void Start()
+    {
+        rend = gameObject.GetComponent<MeshRenderer>();
+
+        UpdateVisuals();
+    }
+
+    public void UpdateVisuals()
+    {
+        rend.material.color = color;
+        rend.material.SetColor("_EmissionColor", color * emissionIntensity);
+        rend.material.EnableKeyword("_EMISSION");
+    }
 }
