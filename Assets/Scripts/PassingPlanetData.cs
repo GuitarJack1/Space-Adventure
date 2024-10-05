@@ -48,11 +48,21 @@ public class PassingPlanetData : MonoBehaviour
         }
     }
 
-    // void OnLevelWasLoaded(int index)
-    // {
-    //     if (SceneManager.GetActiveScene().name == "Space Scene")
-    //     {
+    void OnLevelWasLoaded(int index)
+    {
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
+            GameObject universeManagerObject = GameObject.FindGameObjectWithTag("Universe Controller");
 
-    //     }
-    // }
+            if (universeManagerObject != null)
+            {
+                SpaceUniverseController universeManager = universeManagerObject.GetComponent<SpaceUniverseController>();
+
+                foreach (Planet planet in planets)
+                {
+                    universeManager.AddPlanet(planet.planetName, planet.mass, planet.size, planet.color, planet.emissionIntensity, planet.startXPos, planet.startZPos, planet.startXVel, planet.startZVel);
+                }
+            }
+        }
+    }
 }

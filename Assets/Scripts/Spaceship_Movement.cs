@@ -31,6 +31,7 @@ public class Spaceship_Movement : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Space Scene")
         {
             controls.SpaceShip.Enable();
+            controls.Planet_Creation.Disable();
         }
         else
         {

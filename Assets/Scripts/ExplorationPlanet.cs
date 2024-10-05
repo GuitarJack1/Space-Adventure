@@ -41,8 +41,28 @@ public class ExplorationPlanet : MonoBehaviour
 
     public void UpdateVisuals()
     {
-        rend.material.color = color;
-        rend.material.SetColor("_EmissionColor", color * emissionIntensity);
-        rend.material.EnableKeyword("_EMISSION");
+        if (rend && rend.material)
+        {
+            rend.material.color = color;
+            rend.material.SetColor("_EmissionColor", color * emissionIntensity);
+            rend.material.EnableKeyword("_EMISSION");
+        }
+
+        transform.position = new Vector3(startXPos, 0, startZPos);
+    }
+
+    public void ChangeValues(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel)
+    {
+        this.planetName = planetName;
+        this.mass = mass;
+        this.size = size;
+        this.color = color;
+        this.emissionIntensity = emissionIntensity;
+        this.startXPos = startXPos;
+        this.startZPos = startZPos;
+        this.startXVel = startXVel;
+        this.startZVel = startZVel;
+
+        UpdateVisuals();
     }
 }
