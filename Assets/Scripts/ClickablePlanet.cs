@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -20,6 +21,8 @@ public class ClickablePlanet : MonoBehaviour
 
     public float startXVel = 0;
     public float startZVel = 0;
+
+    public bool sun = false;
 
 
 
@@ -70,11 +73,16 @@ public class ClickablePlanet : MonoBehaviour
         transform.localScale = new Vector3(size, size, size);
 
         rend.material.color = color;
-        rend.material.SetColor("_EmissionColor", color * emissionIntensity);
+        rend.material.SetColor("_EmissionColor", color * (sun ? 1 : emissionIntensity));
         rend.material.EnableKeyword("_EMISSION");
     }
     void CheckIfSelected(InputAction.CallbackContext context)
     {
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
+            controls.Planet_Creation.Select.performed -= CheckIfSelected;
+            return;
+        }
         ray = cam.ScreenPointToRay(new Vector2(Mouse.current.position.x.ReadValue(), Mouse.current.position.y.ReadValue()));
 
         if (Physics.Raycast(ray, out rayHit, 100000f))

@@ -33,6 +33,8 @@ public class PlanetUIManager : MonoBehaviour
     private TMP_Dropdown centerPlanetDropdown;
     [SerializeField]
     FlexibleColorPicker flexibleColorPicker;
+    [SerializeField]
+    Toggle sunToggle;
 
     //Other needed objects
     [SerializeField]
@@ -87,6 +89,8 @@ public class PlanetUIManager : MonoBehaviour
 
         xVelInput.text = "" + planetScript.startXVel;
         zVelInput.text = "" + planetScript.startZVel;
+
+        sunToggle.isOn = planetScript.sun;
     }
     public void UpdatePlanet()
     {
@@ -99,6 +103,8 @@ public class PlanetUIManager : MonoBehaviour
 
         planetScript.startXVel = float.Parse(xVelInput.text);
         planetScript.startZVel = float.Parse(zVelInput.text);
+
+        planetScript.sun = sunToggle.isOn;
     }
 
     public void ToggleSim()

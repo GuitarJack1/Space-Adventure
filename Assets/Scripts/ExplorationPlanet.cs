@@ -49,15 +49,16 @@ public class ExplorationPlanet : MonoBehaviour
         }
 
         transform.position = new Vector3(startXPos, 0, startZPos);
+        transform.localScale = new Vector3(size, size, size);
     }
 
-    public void ChangeValues(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel)
+    public void ChangeValues(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel, bool sun)
     {
         this.planetName = planetName;
         this.mass = mass;
         this.size = size;
         this.color = color;
-        this.emissionIntensity = emissionIntensity;
+        this.emissionIntensity = sun ? 1 : emissionIntensity;
         this.startXPos = startXPos;
         this.startZPos = startZPos;
         this.startXVel = startXVel;

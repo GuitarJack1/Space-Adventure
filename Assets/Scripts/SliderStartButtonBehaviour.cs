@@ -44,12 +44,24 @@ public class SliderStartButtonBehaviour : MonoBehaviour
 
     public void OnMouseEnter()
     {
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
+            controls.Planet_Creation.Select.performed -= StartSliding;
+            controls.Planet_Creation.Mouse_Down.canceled -= StopSliding;
+            return;
+        }
         hovering = true;
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
     }
 
     public void OnMouseExit()
     {
+        if (SceneManager.GetActiveScene().name == "Space Scene")
+        {
+            controls.Planet_Creation.Select.performed -= StartSliding;
+            controls.Planet_Creation.Mouse_Down.canceled -= StopSliding;
+            return;
+        }
         hovering = false;
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }

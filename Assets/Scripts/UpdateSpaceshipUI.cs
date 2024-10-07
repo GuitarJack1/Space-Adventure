@@ -22,13 +22,14 @@ public class UpdateSpaceshipUI : MonoBehaviour
     private PlayerControls controls;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //Setup input system
         controls = new PlayerControls();
         if (SceneManager.GetActiveScene().name == "Space Scene")
         {
             controls.SpaceShip.Enable();
+            controls.Planet_Creation.Disable();
         }
         else
         {

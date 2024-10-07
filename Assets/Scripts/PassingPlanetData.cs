@@ -20,7 +20,9 @@ public class PassingPlanetData : MonoBehaviour
         public float startXVel;
         public float startZVel;
 
-        public Planet(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel)
+        public bool sun;
+
+        public Planet(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel, bool sun)
         {
             this.planetName = planetName;
             this.mass = mass;
@@ -31,6 +33,7 @@ public class PassingPlanetData : MonoBehaviour
             this.startZPos = startZPos;
             this.startXVel = startXVel;
             this.startZVel = startZVel;
+            this.sun = sun;
         }
     }
 
@@ -43,7 +46,7 @@ public class PassingPlanetData : MonoBehaviour
         for (int i = 0; i < newPlanets.Length; i++)
         {
             ClickablePlanet cPlanet = newPlanets[i];
-            planets[i] = new Planet(cPlanet.planetName, cPlanet.mass, cPlanet.size, cPlanet.color, cPlanet.emissionIntensity, cPlanet.startXPos, cPlanet.startZPos, cPlanet.startXVel, cPlanet.startZVel);
+            planets[i] = new Planet(cPlanet.planetName, cPlanet.mass, cPlanet.size, cPlanet.color, cPlanet.emissionIntensity, cPlanet.startXPos, cPlanet.startZPos, cPlanet.startXVel, cPlanet.startZVel, cPlanet.sun);
 
         }
     }
@@ -60,7 +63,7 @@ public class PassingPlanetData : MonoBehaviour
 
                 foreach (Planet planet in planets)
                 {
-                    universeManager.AddPlanet(planet.planetName, planet.mass, planet.size, planet.color, planet.emissionIntensity, planet.startXPos, planet.startZPos, planet.startXVel, planet.startZVel);
+                    universeManager.AddPlanet(planet.planetName, planet.mass, planet.size, planet.color, planet.emissionIntensity, planet.startXPos, planet.startZPos, planet.startXVel, planet.startZVel, planet.sun);
                 }
             }
         }

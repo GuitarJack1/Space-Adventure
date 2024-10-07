@@ -150,6 +150,7 @@ public class UniverseManager : MonoBehaviour
     {
         planetDataToPass.AddClickablePlanets(planets);
         planetDataToPass.gravitationalConstant = gravitationalConstant;
+        controls.Planet_Creation.Disable();
 
         SceneManager.LoadScene("Space Scene");
     }

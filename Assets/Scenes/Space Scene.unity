@@ -680,6 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetPrefab: {fileID: 369680347956075593, guid: a9492d25e663eb34ead96251a1724e07, type: 3}
+  sunPrefab: {fileID: 2800120603150906120, guid: 2b91449fb8fb79d46bc822ba2590cae0, type: 3}
 --- !u!4 &671097797
 Transform:
   m_ObjectHideFlags: 0
