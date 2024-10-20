@@ -66,4 +66,14 @@ public class ExplorationPlanet : MonoBehaviour
 
         UpdateVisuals();
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject collider = collision.gameObject;
+        if (collider.CompareTag("Spaceship"))
+        {
+            Spaceship_Movement spaceshipMovement = collider.GetComponent<Spaceship_Movement>();
+            spaceshipMovement.ToggleWalkingOnPlanet(true, gameObject, collision);
+        }
+    }
 }

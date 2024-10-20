@@ -16,25 +16,10 @@ public class UpdateSpaceshipUI : MonoBehaviour
     private float maxSpeed;
     [SerializeField]
     private float maxShake;
-    [SerializeField]
-    private ParticleSystem particleSystem;
-
-    private PlayerControls controls;
 
     // Start is called before the first frame update
     void Awake()
     {
-        //Setup input system
-        controls = new PlayerControls();
-        if (SceneManager.GetActiveScene().name == "Space Scene")
-        {
-            controls.SpaceShip.Enable();
-            controls.Planet_Creation.Disable();
-        }
-        else
-        {
-            controls.SpaceShip.Disable();
-        }
     }
 
     // Update is called once per frame
@@ -46,7 +31,5 @@ public class UpdateSpaceshipUI : MonoBehaviour
         needleAngle += UnityEngine.Random.Range(-((speed / maxSpeed) * maxShake), ((speed / maxSpeed) * maxShake));
 
         needleRotationPoint.eulerAngles = new Vector3(0, 0, needleAngle);
-
-        particleSystem.startSpeed = (controls.SpaceShip.Boost.IsPressed() ? 18 : 0) + (speed / maxSpeed) * 15;
     }
 }
