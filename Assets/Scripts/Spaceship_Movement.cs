@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,6 +54,8 @@ public class Spaceship_Movement : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        rb.isKinematic = false;
     }
 
     // Update is called once per frame
@@ -83,15 +86,20 @@ public class Spaceship_Movement : MonoBehaviour
             // Move player to the point of impact
             Vector3 colliderPos = collision.transform.position;
             player.transform.position = new Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
+            transform.position = new Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
 
             // Get vector between player and planet
             Vector3 towardsPlanetVector = (hitPlanet.transform.position - player.transform.position).normalized;
 
             // Point player away from planet
             player.transform.up = -towardsPlanetVector;
+            transform.up = -towardsPlanetVector;
 
-            //Move player a little away from the planet
-            player.transform.position += -towardsPlanetVector * 1;
+            //Move player and spaceship a little away from the planet (And player a little right)
+            player.transform.position += -towardsPlanetVector * 1 + -player.transform.forward * 15;
+            transform.position += -towardsPlanetVector * 1;
+
+            rb.isKinematic = true;
 
             SC_PlanetGravity playerPlanetGravity = player.GetComponent<SC_PlanetGravity>();
             playerPlanetGravity.planet = hitPlanet.transform;
@@ -112,6 +120,16 @@ public class Spaceship_Movement : MonoBehaviour
             spaceshipCamera.SetActive(true);
             player.SetActive(false);
             controls.SpaceShip.Enable();
+
+            rb.isKinematic = false;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && rb.isKinematic)
+        {
+            ToggleWalkingOnPlanet(false, null, null);
         }
     }
 }

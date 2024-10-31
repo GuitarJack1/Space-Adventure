@@ -358,6 +358,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Quit_Application"",
+            ""id"": ""ac9ea348-58de-4cc2-966c-6084e203ff75"",
+            ""actions"": [
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f4035cc-a853-4f0b-a23e-a60a3e6b2939"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b339318a-4e6c-4643-8842-3f8f19c9c1bc"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -383,6 +411,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
+        // Quit_Application
+        m_Quit_Application = asset.FindActionMap("Quit_Application", throwIfNotFound: true);
+        m_Quit_Application_Quit = m_Quit_Application.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -626,6 +657,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Quit_Application
+    private readonly InputActionMap m_Quit_Application;
+    private List<IQuit_ApplicationActions> m_Quit_ApplicationActionsCallbackInterfaces = new List<IQuit_ApplicationActions>();
+    private readonly InputAction m_Quit_Application_Quit;
+    public struct Quit_ApplicationActions
+    {
+        private @PlayerControls m_Wrapper;
+        public Quit_ApplicationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Quit => m_Wrapper.m_Quit_Application_Quit;
+        public InputActionMap Get() { return m_Wrapper.m_Quit_Application; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Quit_ApplicationActions set) { return set.Get(); }
+        public void AddCallbacks(IQuit_ApplicationActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Quit_ApplicationActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Quit_ApplicationActionsCallbackInterfaces.Add(instance);
+            @Quit.started += instance.OnQuit;
+            @Quit.performed += instance.OnQuit;
+            @Quit.canceled += instance.OnQuit;
+        }
+
+        private void UnregisterCallbacks(IQuit_ApplicationActions instance)
+        {
+            @Quit.started -= instance.OnQuit;
+            @Quit.performed -= instance.OnQuit;
+            @Quit.canceled -= instance.OnQuit;
+        }
+
+        public void RemoveCallbacks(IQuit_ApplicationActions instance)
+        {
+            if (m_Wrapper.m_Quit_ApplicationActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IQuit_ApplicationActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Quit_ApplicationActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Quit_ApplicationActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Quit_ApplicationActions @Quit_Application => new Quit_ApplicationActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -652,5 +729,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+    }
+    public interface IQuit_ApplicationActions
+    {
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

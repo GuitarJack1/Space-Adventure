@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,6 +52,11 @@ public class PassingPlanetData : MonoBehaviour
         }
     }
 
+    double distanceFromZero(Planet planet)
+    {
+        return Math.Sqrt(Math.Pow(planet.startXPos, 2.0) + Math.Pow(planet.startZPos, 2.0));
+    }
+
     void OnLevelWasLoaded(int index)
     {
         if (SceneManager.GetActiveScene().name == "Space Scene")
@@ -63,6 +69,12 @@ public class PassingPlanetData : MonoBehaviour
 
                 foreach (Planet planet in planets)
                 {
+                    if (distanceFromZero(planet) < planet.size / 2.0 + 10.0)
+                    {
+                        GameObject spaceShip = GameObject.FindGameObjectWithTag("Spaceship");
+                        spaceShip.transform.position = new Vector3(0, 0, -planet.size / 2f + 10f);
+                        Debug.Log("Hello");
+                    }
                     universeManager.AddPlanet(planet.planetName, planet.mass, planet.size, planet.color, planet.emissionIntensity, planet.startXPos, planet.startZPos, planet.startXVel, planet.startZVel, planet.sun);
                 }
             }
