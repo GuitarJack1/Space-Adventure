@@ -22,16 +22,23 @@ public class StayAbovePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (thisTransform != null)  {
+        if (thisTransform != null)
+        {
             thisTransform.position = new Vector3(spaceshipT.transform.position.x, spaceshipT.transform.position.y + hoverHeight, spaceshipT.transform.position.z);
-        }else {
+        }
+        else
+        {
             thisRectTransform.position = new Vector3(spaceshipT.transform.position.x, spaceshipT.transform.position.y + hoverHeight, spaceshipT.transform.position.z);
         }
 
-        if (rotateWithPlayer) {
-            if (thisTransform != null)  {
+        if (rotateWithPlayer)
+        {
+            if (thisTransform != null)
+            {
                 thisTransform.eulerAngles = new Vector3(thisTransform.eulerAngles.x, spaceshipT.eulerAngles.y, thisTransform.eulerAngles.z);
-            } else {
+            }
+            else
+            {
                 thisRectTransform.eulerAngles = new Vector3(thisRectTransform.eulerAngles.x, spaceshipT.eulerAngles.y, thisRectTransform.eulerAngles.z);
             }
         }
