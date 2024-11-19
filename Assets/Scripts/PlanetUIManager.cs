@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class PlanetUIManager : MonoBehaviour
 {
-    private GameObject planet;
+    [HideInInspector]
+    public GameObject planet;
     private ClickablePlanet planetScript;
 
     //[SerializeField]

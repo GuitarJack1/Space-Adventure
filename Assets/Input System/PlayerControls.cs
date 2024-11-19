@@ -371,6 +371,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Toggle_Info_Panel"",
+                    ""type"": ""Button"",
+                    ""id"": ""be176ead-7c7f-42e3-a624-7fbaea514576"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -382,6 +391,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""832201e0-ce02-49e6-9672-d7d97d117d7c"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Toggle_Info_Panel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -414,6 +434,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Quit_Application
         m_Quit_Application = asset.FindActionMap("Quit_Application", throwIfNotFound: true);
         m_Quit_Application_Quit = m_Quit_Application.FindAction("Quit", throwIfNotFound: true);
+        m_Quit_Application_Toggle_Info_Panel = m_Quit_Application.FindAction("Toggle_Info_Panel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -662,11 +683,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Quit_Application;
     private List<IQuit_ApplicationActions> m_Quit_ApplicationActionsCallbackInterfaces = new List<IQuit_ApplicationActions>();
     private readonly InputAction m_Quit_Application_Quit;
+    private readonly InputAction m_Quit_Application_Toggle_Info_Panel;
     public struct Quit_ApplicationActions
     {
         private @PlayerControls m_Wrapper;
         public Quit_ApplicationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Quit => m_Wrapper.m_Quit_Application_Quit;
+        public InputAction @Toggle_Info_Panel => m_Wrapper.m_Quit_Application_Toggle_Info_Panel;
         public InputActionMap Get() { return m_Wrapper.m_Quit_Application; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -679,6 +702,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Quit.started += instance.OnQuit;
             @Quit.performed += instance.OnQuit;
             @Quit.canceled += instance.OnQuit;
+            @Toggle_Info_Panel.started += instance.OnToggle_Info_Panel;
+            @Toggle_Info_Panel.performed += instance.OnToggle_Info_Panel;
+            @Toggle_Info_Panel.canceled += instance.OnToggle_Info_Panel;
         }
 
         private void UnregisterCallbacks(IQuit_ApplicationActions instance)
@@ -686,6 +712,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Quit.started -= instance.OnQuit;
             @Quit.performed -= instance.OnQuit;
             @Quit.canceled -= instance.OnQuit;
+            @Toggle_Info_Panel.started -= instance.OnToggle_Info_Panel;
+            @Toggle_Info_Panel.performed -= instance.OnToggle_Info_Panel;
+            @Toggle_Info_Panel.canceled -= instance.OnToggle_Info_Panel;
         }
 
         public void RemoveCallbacks(IQuit_ApplicationActions instance)
@@ -733,5 +762,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IQuit_ApplicationActions
     {
         void OnQuit(InputAction.CallbackContext context);
+        void OnToggle_Info_Panel(InputAction.CallbackContext context);
     }
 }
