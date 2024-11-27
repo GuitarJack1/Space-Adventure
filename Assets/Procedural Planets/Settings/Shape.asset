@@ -69,11 +69,11 @@ MonoBehaviour:
         centre: {x: -1.43, y: 0, z: 0}
         minValue: 1.57
       rigidNoiseSettings:
-        strength: 1.03
+        strength: 0.73
         numOfLayers: 5
         baseRoughness: 0.39
         roughness: 2.18
         persistence: 0.81
-        centre: {x: 0.38, y: 0, z: 0}
+        centre: {x: 0.33, y: 0, z: 0}
         minValue: 0.98
         weightMultiplier: 1
