@@ -84,7 +84,7 @@ public class Spaceship_Movement : MonoBehaviour
         if (walkingNow)
         {
             // Move player to the point of impact
-            Vector3 colliderPos = collision.transform.position;
+            Vector3 colliderPos = collision.contacts[0].point;
             player.transform.position = new Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
             transform.position = new Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
 
@@ -130,6 +130,11 @@ public class Spaceship_Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && rb.isKinematic)
         {
             ToggleWalkingOnPlanet(false, null, null);
+        }
+        else if (collision.gameObject.CompareTag("Explore Planet"))
+        {
+            Debug.Log(collision.gameObject.transform.parent.gameObject);
+            ToggleWalkingOnPlanet(true, collision.gameObject.transform.parent.gameObject, collision);
         }
     }
 }

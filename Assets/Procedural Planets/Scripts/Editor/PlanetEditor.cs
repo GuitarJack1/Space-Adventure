@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.InputSystem.Utilities;
 
-[CustomEditor(typeof(ProceduralPlanet))]
+[CustomEditor(typeof(EditableProceduralPlanet))]
 public class PlanetEditor : Editor
 {
-    ProceduralPlanet planet;
+    EditableProceduralPlanet planet;
     Editor shapeEditor;
     Editor colorEditor;
 
@@ -60,6 +60,6 @@ public class PlanetEditor : Editor
 
     private void OnEnable()
     {
-        planet = (ProceduralPlanet)target;
+        planet = (EditableProceduralPlanet)target;
     }
 }

@@ -55,7 +55,7 @@ public class PlanetMarkerBehaviour : MonoBehaviour
     {
         if (attatchedPlanet != null)
         {
-            markerImage.color = attatchedPlanet.GetComponent<ExplorationPlanet>().color;
+            markerImage.color = attatchedPlanet.GetComponent<ExplorationPlanet>() ? attatchedPlanet.GetComponent<ExplorationPlanet>().color : Color.blue;
         }
     }
 }

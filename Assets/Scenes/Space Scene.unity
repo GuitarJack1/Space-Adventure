@@ -97,7 +97,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 0518757db045df3468a40c727098b56a, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -855,10 +855,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9bf4ddc255864f4abf63cfa55411702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetPrefab: {fileID: 369680347956075593, guid: a9492d25e663eb34ead96251a1724e07, type: 3}
+  planetPrefab: {fileID: 5686778995405007253, guid: c62a717e719e415449adce8e830ae8c2, type: 3}
   sunPrefab: {fileID: 2800120603150906120, guid: 2b91449fb8fb79d46bc822ba2590cae0, type: 3}
   planetMarkerPrefab: {fileID: 8826739606167736083, guid: 938ebd07ee236d7428a619e620ccdb74, type: 3}
   spaceshipT: {fileID: 584201906}
+  colorSettingsChoices:
+  - {fileID: 11400000, guid: 113a7df771b6e584b8f27bcd6541151c, type: 2}
+  - {fileID: 11400000, guid: ec4c4e3cce30daa48bddaabf3bd3599a, type: 2}
+  - {fileID: 11400000, guid: cf00e6053c43c3941bd53263468a5edf, type: 2}
 --- !u!4 &671097797
 Transform:
   m_ObjectHideFlags: 0

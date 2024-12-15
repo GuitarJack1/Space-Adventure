@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProceduralPlanet : MonoBehaviour
+public class GameProceduralPlanet : MonoBehaviour
 {
     [Range(2, 256)]
     public int resolution = 10;
@@ -18,15 +18,22 @@ public class ProceduralPlanet : MonoBehaviour
     [HideInInspector]
     public bool colorSettingsFoldout;
 
-    ShapeGenerator shapeGenerator;
+    ShapeGenerator shapeGenerator = new ShapeGenerator();
+    ColorGenerator colorGenerator = new ColorGenerator();
 
     [SerializeField, HideInInspector]
     MeshFilter[] meshFilters;
     TerrainFace[] terrainFaces;
 
+    void Start()
+    {
+        GeneratePlanet();
+    }
+
     void Initialize()
     {
-        shapeGenerator = new ShapeGenerator(shapeSettings);
+        shapeGenerator.UpdateSettings(shapeSettings);
+        colorGenerator.UpdateSettings(colorSettings);
 
         if (meshFilters == null || meshFilters.Length == 0)
         {
@@ -43,14 +50,28 @@ public class ProceduralPlanet : MonoBehaviour
                 GameObject meshObj = new GameObject("mesh");
                 meshObj.transform.parent = transform;
 
-                meshObj.AddComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
+                meshObj.AddComponent<MeshRenderer>();//.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
                 meshFilters[i] = meshObj.AddComponent<MeshFilter>();
                 meshFilters[i].sharedMesh = new Mesh();
-            }
 
-            terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
-            bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
-            meshFilters[i].gameObject.SetActive(renderFace);
+                meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = colorSettings.planetMaterial;
+
+                terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
+                bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
+                meshFilters[i].gameObject.SetActive(renderFace);
+
+                meshObj.AddComponent<MeshCollider>();
+                //meshObj.GetComponent<MeshCollider>().convex = true;
+                meshObj.tag = "Explore Planet";
+            }
+            else
+            {
+                meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial = colorSettings.planetMaterial;
+
+                terrainFaces[i] = new TerrainFace(shapeGenerator, meshFilters[i].sharedMesh, resolution, directions[i]);
+                bool renderFace = faceRenderMask == FaceRenderMask.All || (int)faceRenderMask - 1 == i;
+                meshFilters[i].gameObject.SetActive(renderFace);
+            }
         }
     }
 
@@ -85,12 +106,11 @@ public class ProceduralPlanet : MonoBehaviour
                 terrainFaces[i].ConstructMesh();
             }
         }
+
+        colorGenerator.UpdateElevation(shapeGenerator.elevationMinMax);
     }
     void GenerateColors()
     {
-        foreach (MeshFilter m in meshFilters)
-        {
-            m.GetComponent<MeshRenderer>().sharedMaterial.color = colorSettings.planetColor;
-        }
+        colorGenerator.UpdateColors();
     }
 }

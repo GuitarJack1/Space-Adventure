@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpaceUniverseController : MonoBehaviour
 {
-    private List<ExplorationPlanet> planets;
     [SerializeField]
     private GameObject planetPrefab;
     [SerializeField]
@@ -15,24 +14,35 @@ public class SpaceUniverseController : MonoBehaviour
     [SerializeField]
     private Transform spaceshipT;
 
-    void Awake()
-    {
-        planets = new List<ExplorationPlanet>();
-    }
+    [SerializeField]
+    private ColorSettings[] colorSettingsChoices;
 
     public void AddPlanet(string planetName, float mass, float size, Color color, float emissionIntensity, float startXPos, float startZPos, float startXVel, float startZVel, bool sun)
     {
-        GameObject newPlanet = Instantiate(sun ? sunPrefab : planetPrefab, new Vector3(startXPos, 0, startZPos), Quaternion.identity);
-        GameObject marker = Instantiate(planetMarkerPrefab);
+        GameObject newPlanet = Instantiate(sun ? sunPrefab : planetPrefab);
 
-        ExplorationPlanet explorationPlanetScript = newPlanet.GetComponent<ExplorationPlanet>();
-        explorationPlanetScript.ChangeValues(planetName, mass, size, color, emissionIntensity, startXPos, startZPos, startXVel, startZVel, sun);
+        if (sun)
+        {
+            ExplorationPlanet explorationPlanetScript = newPlanet.GetComponent<ExplorationPlanet>();
+            explorationPlanetScript.ChangeValues(planetName, mass, size, color, emissionIntensity, startXPos, startZPos, startXVel, startZVel, sun);
+        }
+        else
+        {
+            GameProceduralPlanet gameProceduralPlanet = newPlanet.GetComponent<GameProceduralPlanet>();
+            gameProceduralPlanet.colorSettings = colorSettingsChoices[Random.Range(0, colorSettingsChoices.Length)];
+            gameProceduralPlanet.GeneratePlanet();
+
+            newPlanet.transform.localScale = new Vector3(size, size, size);
+        }
+
+        newPlanet.transform.position = new Vector3(startXPos, 0, startZPos);
+        newPlanet.transform.rotation = Random.rotation;
+
+
+        GameObject marker = Instantiate(planetMarkerPrefab);
 
         PlanetMarkerBehaviour planetMarkerBehaviour = marker.GetComponent<PlanetMarkerBehaviour>();
         planetMarkerBehaviour.attatchedPlanet = newPlanet;
         planetMarkerBehaviour.spaceshipT = spaceshipT;
-
-
-        planets.Add(explorationPlanetScript);
     }
 }

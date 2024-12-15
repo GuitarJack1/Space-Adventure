@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spaceship
   - Universe Controller
+  - Explore Planet
   layers:
   - Default
   - TransparentFX
